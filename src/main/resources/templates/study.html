@@ -13,6 +13,7 @@
     body{
         padding: 0;
         margin: 0;
+        background-color: #EBF4FA;
     }
     .mainButton{
         cursor: pointer;
@@ -48,6 +49,16 @@
         border: none;
         border-radius: 10px;
     }
+    .myPage{
+        background-color: white;
+        color:#5853EB;
+        font-family: "Arial Black";
+        font-size: 20px;
+        width: 110px;
+        height: 40px;
+        border: none;
+        border-radius: 10px;
+    }
 </style>
 
 </head>
@@ -56,175 +67,62 @@
     <div style="width:100%; height:280px; background-color: #5853EB;">
         <div style="height: 8px"></div>
         <div style="height: 50px;" align="right">
-            <button class="login">Log in</button> &nbsp;
+            <span style="color:white; font-family: 'Arial Black'; font-size: 15px;" th:if="${auth}==1" th:text="${nick}+' 님 환영합니다    '"> </span>
+            <button th:if="${auth}==0" class="login" style="cursor:pointer" th:onclick="'window.location.href = \'/loginProc\''">Sign in</button> &nbsp;
+            <button th:if="${auth}==1" class="myPage" style="cursor:pointer" th:onclick="'window.location.href = \'/myPage\''">My Page</button>  &nbsp;
         </div>
         <div align="center">
-            <span style="font-size:100px; font-family: 'Arial Black'; color:white">Together</span>
+            <span style="font-size:100px; font-family: 'Arial Black'; color:white; cursor:pointer;" th:onclick="'window.location.href = \'/home\''">Together</span>
         </div>
         <div style="height:10px"></div>
         <div align="center">
     <span>
-        <button class="mainButton stutdy">스터디</button>
+        <button class="mainButton stutdy" >스터디</button>
     </span> &ensp;&ensp;&ensp;&ensp;&ensp;
             <span>
-        <button class="mainButton group">소모임</button>
+        <button class="mainButton group" th:onclick="'window.location.href = \'/group\''">소모임</button>
     </span> &ensp;&ensp;&ensp;&ensp;&ensp;
             <span>
-        <button class="mainButton community">커뮤니티</button>
+        <button class="mainButton community" th:onclick="'window.location.href = \'/community\''">커뮤니티</button>
     </span>
         </div>
     </div>
 
-    <div style="width:70%;height:1200px" align="center"></div>
+    <div style="height:60px;"></div>
     <div align="center">
-        <input type="text" placeholder="검색어" width="400px" height="40px">
-        <button style="width:100px; height:40px;">검색</button>
-    </div>
-
-
-<div width="80%">
         <div class="row" align="center" width="80%">
             <div class="col">
-                <div class="card" style="width: 20rem; height: 30rem">
+                <div class="card" style="width: 25rem; height: 15rem;border: 1px solid #000; border-top: none;border-left: none; border-width: 2px; border-color:grey">
                     <div class="card-body">
-                        <div style="height:40px;">
-                            <h7 class="card-title">옷 이름</h7>
+                        <div style="height:100px;display: flex;align-items:center; justify-content: center; ">
+                            <span class="card-title" style="font-size:20px; text-align: center">제목이 얼마나 길어야 두번째</span>
                         </div>
-                        <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-                        <input type="button"  style="width:120px;border: none;
-            padding: 10px 20px;
-            border-radius: 10px; /* 모서리를 둥글게 하는 부분 */
-            background-color: #6F4E37; /* 바탕색을 분홍색으로 설정 */
-            color: white;" value="Detail">
-                        <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-                        <span style="cursor:pointer" >&#x2665;</span>
+                        <div style="height:40px;">
+                            <h7 class="card-title">태그가 까</h7>
+                        </div>
+                        <div style="height:30px;">
+                            <h7 class="card-title">날짜</h7>
+                        </div>
+                        <div>
+                            <input type="button"  style="width:120px;border: none;padding: 10px 20px;
+                            border-radius: 10px;background-color: tomato;color: white;" value="More">
+                        </div>
                     </div>
                 </div>
+                <div style="height:20px"> </div>
             </div>
 
-            <div class="col">
-                <div class="card" style="width: 20rem; height: 30rem">
-                    <div class="card-body">
-                        <div style="height:40px;">
-                            <h7 class="card-title">옷 이름</h7>
-                        </div>
-                        <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-                        <input type="button"  style="width:120px;border: none;
-            padding: 10px 20px;
-            border-radius: 10px; /* 모서리를 둥글게 하는 부분 */
-            background-color: #6F4E37; /* 바탕색을 분홍색으로 설정 */
-            color: white;" value="Detail">
-                        <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-                        <span style="cursor:pointer" >&#x2665;</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card" style="width: 20rem; height: 30rem">
-                    <div class="card-body">
-                        <div style="height:40px;">
-                            <h7 class="card-title">옷 이름</h7>
-                        </div>
-                        <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-                        <input type="button"  style="width:120px;border: none;
-            padding: 10px 20px;
-            border-radius: 10px; /* 모서리를 둥글게 하는 부분 */
-            background-color: #6F4E37; /* 바탕색을 분홍색으로 설정 */
-            color: white;" value="Detail">
-                        <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-                        <span style="cursor:pointer" >&#x2665;</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card" style="width: 20rem; height: 30rem">
-                    <div class="card-body">
-                        <div style="height:40px;">
-                            <h7 class="card-title">옷 이름</h7>
-                        </div>
-                        <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-                        <input type="button"  style="width:120px;border: none;
-            padding: 10px 20px;
-            border-radius: 10px; /* 모서리를 둥글게 하는 부분 */
-            background-color: #6F4E37; /* 바탕색을 분홍색으로 설정 */
-            color: white;" value="Detail">
-                        <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-                        <span style="cursor:pointer" >&#x2665;</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card" style="width: 20rem; height: 30rem">
-                    <div class="card-body">
-                        <div style="height:40px;">
-                            <h7 class="card-title">옷 이름</h7>
-                        </div>
-                        <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-                        <input type="button"  style="width:120px;border: none;
-            padding: 10px 20px;
-            border-radius: 10px; /* 모서리를 둥글게 하는 부분 */
-            background-color: #6F4E37; /* 바탕색을 분홍색으로 설정 */
-            color: white;" value="Detail">
-                        <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-                        <span style="cursor:pointer" >&#x2665;</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card" style="width: 20rem; height: 30rem">
-                    <div class="card-body">
-                        <div style="height:40px;">
-                            <h7 class="card-title">옷 이름</h7>
-                        </div>
-                        <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-                        <input type="button"  style="width:120px;border: none;
-            padding: 10px 20px;
-            border-radius: 10px; /* 모서리를 둥글게 하는 부분 */
-            background-color: #6F4E37; /* 바탕색을 분홍색으로 설정 */
-            color: white;" value="Detail">
-                        <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-                        <span style="cursor:pointer" >&#x2665;</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card" style="width: 20rem; height: 30rem">
-                    <div class="card-body">
-                        <div style="height:40px;">
-                            <h7 class="card-title">옷 이름</h7>
-                        </div>
-                        <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-                        <input type="button"  style="width:120px;border: none;
-            padding: 10px 20px;
-            border-radius: 10px; /* 모서리를 둥글게 하는 부분 */
-            background-color: #6F4E37; /* 바탕색을 분홍색으로 설정 */
-            color: white;" value="Detail">
-                        <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-                        <span style="cursor:pointer" >&#x2665;</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-</div>
-
-
-    <div style="display: flex; width:80%; height:1000px">
-        <div style=" width:25%; height:200px">.g-col-6</div>
-        <div style=" width:25%; height:200px">.g-col-6</div>
-        <div style=" width:25%; height:200px">.g-col-6</div>
-        <div style="width:25%; height:200px">.g-col-6</div>
-        <div style="width:25%; height:200px">.g-col-6</div>
-        <div style=" width:25%; height:200px">.g-col-6</div>
-        <div style="width:25%; height:200px">.g-col-6</div>
-        <div style="width:25%; height:200px">.g-col-6</div>
-        <div style=" width:25%; height:200px">.g-col-6</div>
+    </div>
+    <div align="center">
+        <input type="text" placeholder="검색어" width="400px" height="40px">
+        <button style="width:70px; height:30px;border:none; border-radius: 15px; background-color: #5853EB; color:white">검색</button>
     </div>
 
 
-<table>
 
 
-</table>
+
+
 
 
 

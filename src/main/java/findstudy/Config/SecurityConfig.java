@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests() //권한 설정
-                    .antMatchers("/*").permitAll() //인증이 필요없이 들어올수 있는곳 설정
+                    .antMatchers("/static/**","/login_join","/loginForm","/home","/loginJoinProc").permitAll() //인증이 필요없이 들어올수 있는곳 설정
                     .anyRequest().authenticated() //위 제외하고는 모든곳에는 인증이 필요하다고 설정
                     .and()
                 .formLogin() // 폼기반 로그인 활성화
@@ -50,6 +50,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //    @Autowired
 //    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

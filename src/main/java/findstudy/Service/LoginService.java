@@ -15,4 +15,14 @@ public class LoginService {
     public Member findMember(String id){
         return loginRepository.findById(id);
     }
+    public Member findMemberByNick(String nick){
+        return loginRepository.findByNick(nick);
+    }
+    public Member saveMember(Member member){
+        return loginRepository.save(member);
+    }
+
+    public void updatePw(String pw, String id){
+        loginRepository.updatePwById(pw,id);
+    }
 }
