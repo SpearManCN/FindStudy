@@ -63,6 +63,16 @@
 
 </head>
 <body>
+<script>
+    function goDetail(data){
+        $("[name=no]").val(data);
+        document.detailForm.submit();
+    }
+</script>
+<form action="/boardDetail" method="post" name="detailForm">
+    <input name="no" type="hidden">
+</form>
+
 
     <div style="width:100%; height:280px; background-color: #5853EB;">
         <div style="height: 8px"></div>
@@ -91,27 +101,33 @@
     <div style="height:60px;"></div>
     <div align="center">
         <div class="row" align="center" width="80%">
-            <div class="col">
+
+            <div class="col" th:each="board:${boards}">
                 <div class="card" style="width: 25rem; height: 15rem;border: 1px solid #000; border-top: none;border-left: none; border-width: 2px; border-color:grey">
                     <div class="card-body">
                         <div style="height:100px;display: flex;align-items:center; justify-content: center; ">
-                            <span class="card-title" style="font-size:20px; text-align: center">제목이 얼마나 길어야 두번째</span>
+                            <span th:text="${board.title}" class="card-title" style="font-size:20px; text-align: center">제목</span>
                         </div>
                         <div style="height:40px;">
-                            <h7 class="card-title">태그가 까</h7>
+                            <h7 th:if="${board.tag1 != ''}" th:text="'#'+${board.tag1}" class="card-title">태그1</h7>
+                            <h7 th:if="${board.tag2 != ''}" th:text="'#'+${board.tag2}" class="card-title">태그1</h7>
+                            <h7 th:if="${board.tag3 != ''}" th:text="'#'+${board.tag3}" class="card-title">태그1</h7>
+
                         </div>
                         <div style="height:30px;">
-                            <h7 class="card-title">날짜</h7>
+                            <h7 th:text="${board.dates}" class="card-title">날짜</h7>
                         </div>
-                        <div>
-                            <input type="button"  style="width:120px;border: none;padding: 10px 20px;
+                        <div>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                            <input type="button" th:onclick="'goDetail('+${board.no}+')'"  style="width:120px;border: none;padding: 10px 20px;
                             border-radius: 10px;background-color: tomato;color: white;" value="More">
+                            <span>💕</span><span th:text="${board.likes}"></span><span>👁️‍🗨️</span><span th:text="${board.views}"></span>
                         </div>
                     </div>
                 </div>
                 <div style="height:20px"> </div>
             </div>
 
+        </div>
     </div>
     <div align="center">
         <input type="text" placeholder="검색어" width="400px" height="40px">

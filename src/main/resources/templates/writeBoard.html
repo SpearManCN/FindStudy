@@ -78,14 +78,17 @@
     if($("[name=title]").val()=="" || $("[name=content]").val()==""){
       alert("제목과 본문은 필수입니다.");
       return 0;
-    }else if($("[name=sort]").val()==0){
+    }else if($("[name=beforeSort]").val()==0){
       alert("카테고리를 선택해주세요.");
       return 0;
     }else{
+
       return 1;
     }
   }
-
+  function changeSort(){
+    $("[name=sort]").val(  $("[name=beforeSort]").val()  );
+  }
 </script>
 
 
@@ -121,17 +124,18 @@
     <div class="col">
       <div class="card" style="width: 25rem; height: 45rem;border: 1px solid #000; border-top: none;border-left: none; border-width: 2px; border-color:grey">
         <div class="card-body">
-          <form name="writeForm" >
+
           <div style="height:30px;display: flex; align-items:center; justify-content: center; ">
             <span class="card-title" style="font-size:15px; font-family: 'Arial Black'; text-align: center">카테고리</span>&nbsp;
-            <select name="sort" style="width:100px; hieght:30px; font-size: 13px;">
+            <select onchange="changeSort()" name="beforeSort" style="width:100px; hieght:30px; font-size: 13px;">
               <option value="0" selected>--선택--</option>
               <option value="1">스터디</option>
               <option value="2">소모임</option>
               <option value="3">커뮤니티</option>
             </select>
           </div>
-
+          <form name="writeForm" >
+            <input type="hidden" name="sort" value="0">
           <div style="height:70px;display: flex; align-items:center; justify-content: flex-end; ">
             <span class="card-title" style="font-size:15px; font-family: 'Arial Black'; text-align: center">제목</span>&nbsp;
             <input type="text" name="title" placeholder="제목을 입력해주세요" style="width:350px; height: 40px;"> &ensp;
@@ -170,7 +174,7 @@
 
 
 
-
+</div>
 
 
 
