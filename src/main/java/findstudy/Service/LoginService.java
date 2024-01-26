@@ -25,4 +25,8 @@ public class LoginService {
     public void updatePw(String pw, String id){
         loginRepository.updatePwById(pw,id);
     }
+
+    public Member findByNameAndEmail(String name, String email){
+        return loginRepository.findByNameAndEmail(name,email);
+    }
 }

@@ -15,8 +15,8 @@ public interface LoginRepository extends JpaRepository<Member, Long> {
     public Member findByNick(String nick);
     public Member save(Member member);
 
+    public Member findByNameAndEmail(String name, String email);
     @Modifying
-    @Transactional
     @Query("UPDATE Member m set m.pw = :pw where m.id = :id")
     public void updatePwById(@Param("pw") String pw, @Param("id") String id);
 }

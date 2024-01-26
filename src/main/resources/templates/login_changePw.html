@@ -26,14 +26,10 @@
       border: none;
     }
     .stutdy{
+
       background-color: tomato;
     }
     .group{
-      font-size: 23px;
-      font-family: "Arial Black";
-      border-radius: 30px;
-      width: 120px;
-      height: 50px;
       background-color: plum;
     }
     .community{
@@ -59,29 +55,43 @@
       border: none;
       border-radius: 10px;
     }
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
   </style>
 </head>
 <body>
-<script>
-  $(function(){
-    var no = $("[name=nowPageNo]").val();
-    $("[name=page"+no+"]").css("color", "#5853EB");
-  });
-  function handleClick(data){
-    var no = $("[name=nowPageNo]").val(data);
-    document.pageNoHidden.submit();
+<!-- script -->
+<script th:inline="javascript">
+  function changePw(){
+    if(changeVal()==0){return;}
+    $.ajax({
+      url:"/changePwProc"
+      ,data:$("[name=pwForm]").serialize()
+      ,type:"post"
+      ,success:function(data){
+        alert("비밀번호가 변경되었습니다.");
+        window.location.href = '/home';
+      }
+      ,error: function(e){
+        alert(e.responseText);
+      }
+    });
   }
-  function goDetail(data){
-    $("[name=no]").val(data);
-    document.detailForm.submit();
+  function changeVal(){
+    if($("[name=pw]").val()!=$("[name=pwConfirm]").val()){
+      alert("두 비밀번호가 같지 않습니다.");
+      return 0;
+    }else{return 1;}
   }
-  function searchFunc(){
-    document.searchForm.submit();
-  }
+
 </script>
-<form action="/boardDetail" method="post" name="detailForm">
-  <input name="no" type="hidden">
-</form>
+
+
 <div style="width:100%; height:280px; background-color: #5853EB;">
   <div style="height: 8px"></div>
   <div style="height: 50px;" align="right">
@@ -98,7 +108,7 @@
         <button class="mainButton stutdy" th:onclick="'window.location.href = \'/study\''">스터디</button>
     </span> &ensp;&ensp;&ensp;&ensp;&ensp;
     <span>
-        <button class="mainButton group">소모임</button>
+        <button class="mainButton group" th:onclick="'window.location.href = \'/group\''">소모임</button>
     </span> &ensp;&ensp;&ensp;&ensp;&ensp;
     <span>
         <button class="mainButton community" th:onclick="'window.location.href = \'/community\''">커뮤니티</button>
@@ -109,47 +119,37 @@
 <div style="height:60px;"></div>
 <div align="center">
   <div class="row" align="center" width="80%">
-    <div class="col" th:each="board:${boards}">
-      <div class="card" style="width: 25rem; height: 15rem;border: 1px solid #000; border-top: none;border-left: none; border-width: 2px; border-color:grey">
+    <div class="col">
+      <div class="card" style="width: 25rem; height: 17rem;border: 1px solid #000; border-top: none;border-left: none; border-width: 2px; border-color:grey">
         <div class="card-body">
-          <div style="height:100px;display: flex;align-items:center; justify-content: center; ">
-            <span th:text="${board.title}" class="card-title" style="font-size:20px; text-align: center">제목</span>
-          </div>
-          <div style="height:40px;">
-            <h7 th:if="${board.tag1 != ''}" th:text="'#'+${board.tag1}" class="card-title">태그1</h7>
-            <h7 th:if="${board.tag2 != ''}" th:text="'#'+${board.tag2}" class="card-title">태그1</h7>
-            <h7 th:if="${board.tag3 != ''}" th:text="'#'+${board.tag3}" class="card-title">태그1</h7>
+          <form name="pwForm" method="post">
+            <div align="center" th:text="'ID ['+${idStore}+'] 의 PW변경'"> </div>
+            <div style="height:70px;display: flex; align-items:center; justify-content: flex-end; ">
+              <span class="card-title" style="font-size:20px; text-align: center">새 비밀번호</span> &ensp;&ensp;&ensp;&ensp;&ensp;
+              <input type="password" name="pw" style="width:200px; height: 40px;">&ensp;
+            </div>
 
-          </div>
-          <div style="height:30px;">
-            <h7 th:text="${board.dates}" class="card-title">날짜</h7>
-          </div>
-          <div>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-            <input type="button"  th:onclick="'goDetail('+${board.no}+')'"  style="width:120px;border: none;padding: 10px 20px;
-                            border-radius: 10px;background-color: plum;color: white;" value="More">
-            &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span>👁️‍🗨️</span><span th:text="${board.views}"></span>
+            <div style="height:70px;display: flex;align-items:center; justify-content: flex-end; ">
+              <span class="card-title" style="font-size:20px; text-align: center">재입력</span>&ensp;&ensp;&ensp;&ensp;&ensp;
+              <input type="password" name="pwConfirm" style="width:200px; height: 40px;">&ensp;
+            </div>
+
+            <input type="hidden" name="id" th:value="${idStore}">
+
+          </form>
+          <div>
+            <button onclick="changePw()" style="width:110px;border: none;padding: 10px 20px;height: 38px;font-size:22px;display: flex; align-items:center; justify-content: center;
+                            border-radius: 10px;background-color: #5853EB;color: white;align-content: center ">변경</button>
           </div>
         </div>
       </div>
       <div style="height:20px"> </div>
     </div>
-
-  </div>
-  <div>
-    <div align="center" style="align-content: center;">
-      <span style="cursor:pointer" th:each="iteration : ${#numbers.sequence(1,  totPage != null ? totPage : 1)}" th:onclick="'handleClick(' + ${iteration} + ')'"  th:name="'page'+${iteration}" th:text="'['+${iteration}+']'"></span>
-    </div><div style="height: 10px"></div>
-  </div>
-  <div align="center">
-    <form name="searchForm" action="/group" method="post">
-    <input name="search" type="text" placeholder="검색어" width="400px" height="40px">
-    <input type="button" value="검색" onclick="searchFunc()" style="width:70px; height:30px;border:none; border-radius: 15px; background-color: #5853EB; color:white">
-    <input type="button" value="글쓰기" th:onclick="'window.location.href = \'/writeBoard\''" style="width:85px; height:30px;border:none; border-radius: 15px; background-color: #5853EB; color:white">
-    </form>
   </div>
 </div>
-<form action="/group" name="pageNoHidden">
-  <input type="hidden" name="nowPageNo" th:value="${nowPageNo}">
-</form>
+
+
+
+<div></div>
 </body>
 </html>

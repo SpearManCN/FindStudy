@@ -15,11 +15,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -32,7 +34,9 @@ public class BoardController {
     CommentService commentService;
 
     @RequestMapping("/study")
-    public String study(Model model){
+    public String study(Model model, @RequestParam(value="nowPageNo",required = false, defaultValue = "1")int nowPageNo
+           , @RequestParam(value="search",required = false, defaultValue = "")String search
+    ){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         int auth;
         UserDetails principal = (UserDetails) authentication.getPrincipal();
@@ -44,15 +48,32 @@ public class BoardController {
         if (authentication.getPrincipal() instanceof UserDetails){auth = 1;}
         else{auth=0;}
         model.addAttribute("auth", auth);
-        List<MainBoard> boards = boardService.selectAll(1);
-        model.addAttribute("boards", boards);
+        List<MainBoard> beforeResult = boardService.selectAllSearch(1,search);
+        if(beforeResult.isEmpty()){return "/study";}
+        // 페이징 처리
+        int totNo = beforeResult.size();
+        int noPerPage = 10; //페이지당 나타낼 최대 글 갯수
+        int zeroLast = 1; //총 갯수가 10단위인지
+        if(totNo%10==0){zeroLast = 0;}
+        int totPage = totNo/10 + zeroLast; //totpage는 총 페이지의 갯수( 글갯수아님)
+        int startBoardNo = (nowPageNo)*10-10; //페이지당 시작글 번호
+        int endBoardNo = startBoardNo +10;  //페이지당 끝 글 번호
+        int totNoData = totNo%10;
+        if(totNoData==0){totNoData=10;}
+        if(nowPageNo == totPage){endBoardNo= startBoardNo + totNoData; }
 
 
+            List<MainBoard> afterResult = beforeResult.subList(startBoardNo,endBoardNo);
+            model.addAttribute("boards", afterResult);
+            List pageList = new ArrayList();
+            model.addAttribute("nowPageNo", nowPageNo);
+            model.addAttribute("totPage", totPage);
 
         return "study";
     }
     @RequestMapping("/group")
-    public String group(Model model){
+    public String group(Model model, @RequestParam(value="nowPageNo",required = false, defaultValue = "1")int nowPageNo
+            , @RequestParam(value="search",required = false, defaultValue = "")String search){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         int auth;
@@ -65,12 +86,35 @@ public class BoardController {
         if (authentication.getPrincipal() instanceof UserDetails){auth = 1;}
         else{auth=0;}
         model.addAttribute("auth", auth);
-        List<MainBoard> boards = boardService.selectAll(2);
-        model.addAttribute("boards", boards);
+        List<MainBoard> beforeResult = boardService.selectAllSearch(2, search);
+
+
+        if(beforeResult.isEmpty()){return "/group";}
+        int totNo = beforeResult.size();
+        int noPerPage = 10; //페이지당 나타낼 최대 글 갯수
+        int zeroLast = 1; //총 갯수가 10단위인지
+        if(totNo%10==0){zeroLast = 0;}
+        int totPage = totNo/10 + zeroLast; //totpage는 총 페이지의 갯수( 글갯수아님)
+        int startBoardNo = (nowPageNo)*10-10; //페이지당 시작글 번호
+        int endBoardNo = startBoardNo +10;  //페이지당 끝 글 번호
+        int totNoData = totNo%10;
+        if(totNoData==0){totNoData=10;}
+        if(nowPageNo == totPage){endBoardNo= startBoardNo + totNoData; }
+        List<MainBoard> afterResult = beforeResult.subList(startBoardNo,endBoardNo);
+        model.addAttribute("boards", afterResult);
+        List pageList = new ArrayList();
+        model.addAttribute("nowPageNo", nowPageNo);
+        model.addAttribute("totPage", totPage);
+
+
+
         return "group";
     }
+
+
     @RequestMapping("/community")
-    public String community(Model model){
+    public String community(Model model, @RequestParam(value="nowPageNo",required = false, defaultValue = "1")int nowPageNo
+            , @RequestParam(value="search",required = false, defaultValue = "")String search){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         int auth;
         UserDetails principal = (UserDetails) authentication.getPrincipal();
@@ -82,8 +126,25 @@ public class BoardController {
         if (authentication.getPrincipal() instanceof UserDetails){auth = 1;}
         else{auth=0;}
         model.addAttribute("auth", auth);
-        List<MainBoard> boards = boardService.selectAll(3);
-        model.addAttribute("boards", boards);
+        List<MainBoard> beforeResult = boardService.selectAllSearch(3,search);
+
+
+        if(beforeResult.isEmpty()){return "/community";}
+        int totNo = beforeResult.size();
+        int noPerPage = 10; //페이지당 나타낼 최대 글 갯수
+        int zeroLast = 1; //총 갯수가 10단위인지
+        if(totNo%10==0){zeroLast = 0;}
+        int totPage = totNo/10 + zeroLast; //totpage는 총 페이지의 갯수( 글갯수아님)
+        int startBoardNo = (nowPageNo)*10-10; //페이지당 시작글 번호
+        int endBoardNo = startBoardNo +10;  //페이지당 끝 글 번호
+        int totNoData = totNo%10;
+        if(totNoData==0){totNoData=10;}
+        if(nowPageNo == totPage){endBoardNo= startBoardNo + totNoData; }
+        List<MainBoard> afterResult = beforeResult.subList(startBoardNo,endBoardNo);
+        model.addAttribute("boards", afterResult);
+        List pageList = new ArrayList();
+        model.addAttribute("nowPageNo", nowPageNo);
+        model.addAttribute("totPage", totPage);
         return "community";
     }
 
@@ -143,6 +204,9 @@ public class BoardController {
         MainBoard board = boardService.findByNo(no);
         model.addAttribute("mainBoard", board);
 
+        List<Comment> comments = commentService.findByBoardNo(no);
+        model.addAttribute("comments",comments);
+        boardService.updateView(no);
 
         return "boardDetail";
     }

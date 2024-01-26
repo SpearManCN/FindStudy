@@ -20,7 +20,6 @@ public class CustomUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         Member member = loginRepository.findById(id);
-        System.out.println(member);
         List<GrantedAuthority> authorities = new ArrayList<>();
         if(member == null){
             throw new UsernameNotFoundException("User not found with username: " + id);

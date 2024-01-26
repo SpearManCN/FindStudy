@@ -4,6 +4,7 @@ import findstudy.Domain.Member;
 import findstudy.Service.LoginService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -40,12 +41,6 @@ public class LoginController {
         }
         model.addAttribute("nick", nick);
         model.addAttribute("auth", auth);
-//        model.addAttribute("auth", authentication.getPrincipal() instanceof UserDetails);
-
-//        if(authentication.getPrincipal() instanceof UserDetails){
-//            UserDetails principal = (UserDetails) authentication.getPrincipal();
-//            model.addAttribute("user", principal);
-//        }
         return "home";
     }
 
@@ -70,6 +65,38 @@ public class LoginController {
         model.addAttribute("auth", auth);
         return "login_join";
     }
+    @RequestMapping("/login_find")
+    public String loginFind(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int auth;
+        // 사용자의 Principal 객체 가져오기 (사용자 정보 포함)
+        if (authentication.getPrincipal() instanceof UserDetails){auth = 1;}
+        else{auth=0;}
+        model.addAttribute("auth", auth);
+        return "login_find";
+    }
+    @RequestMapping("/login_findProc")
+    @ResponseBody
+    public String loginFindProc(@Param("name")String name, @Param("email") String email){
+        Member member = loginService.findByNameAndEmail(name,email);
+        if(member == null){return "";}
+        return member.getId();
+    }
+
+    @RequestMapping("/login_changePw")
+    public String loginChangePw(@Param("idVal")String idVal, Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int auth;
+        // 사용자의 Principal 객체 가져오기 (사용자 정보 포함)
+        if (authentication.getPrincipal() instanceof UserDetails){auth = 1;}
+        else{auth=0;}
+        model.addAttribute("auth", auth);
+        model.addAttribute("idStore", idVal);
+        return "login_changePw";
+    }
+
+
+
     @RequestMapping("/loginJoinProc")
     @ResponseBody
     public int login_joinProc(Member member, Model model){

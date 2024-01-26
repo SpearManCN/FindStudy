@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  <style>
+    body{
+      padding: 0;
+      margin: 0;
+      background-color: #EBF4FA;
+    }
+    .mainButton{
+      cursor: pointer;
+      color: white;
+      font-size: 18px;
+      font-family: "Arial Black";
+      border-radius: 20px;
+      width: 90px;
+      height: 35px;
+      border: none;
+    }
+    .stutdy{
+
+      background-color: tomato;
+    }
+    .group{
+      background-color: plum;
+    }
+    .community{
+      background-color: gold;
+    }
+    .login{
+      background-color: white;
+      color:#5853EB;
+      font-family: "Arial Black";
+      font-size: 20px;
+      width: 90px;
+      height: 40px;
+      border: none;
+      border-radius: 10px;
+    }
+    .myPage{
+      background-color: white;
+      color:#5853EB;
+      font-family: "Arial Black";
+      font-size: 20px;
+      width: 110px;
+      height: 40px;
+      border: none;
+      border-radius: 10px;
+    }
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+<script>
+  function findMember(){
+    if (!findVal()){return}
+    $.ajax({
+      url:"/login_findProc"
+      ,data:$("[name=findForm]").serialize()
+      ,type:"post"
+      ,success:function(data){
+          if(data == ""){
+            alert("해당 정보의 ID가 없습니다.");
+            return;
+          }
+
+          if(confirm("ID는 "+data+" 입니다. 비밀번호를 변경하시겠습니까?")){
+            $("[name=idVal]").val(data);
+            document.idStore.submit();
+          }else{window.location.href = '/home';}
+      }
+      ,error:function(e){
+        alert(e.responseText);
+      }
+    });
+  }
+
+  function findVal(){
+    if( $("[name=name]").val()=="" || $("[name=email]").val()==""){
+      alert("모든 칸을 채워주세요"); return false;
+    }else{return true;}
+  }
+
+</script>
+
+<form name="idStore" action="/login_changePw" method="post">
+  <input type="hidden" name="idVal">
+</form>
+
+
+<div style="width:100%; height:280px; background-color: #5853EB;">
+  <div style="height: 8px"></div>
+  <div style="height: 50px;" align="right">
+    <span style="color:white; font-family: 'Arial Black'; font-size: 15px;" th:if="${auth}==1" th:text="${nick}+' 님 환영합니다    '"> </span>
+    <button th:if="${auth}==0" class="login" style="cursor:pointer" th:onclick="'window.location.href = \'/loginProc\''">Sign in</button> &nbsp;
+    <button th:if="${auth}==1" class="myPage" style="cursor:pointer" th:onclick="'window.location.href = \'/myPage\''">My Page</button>  &nbsp;
+  </div>
+  <div align="center">
+    <span style="font-size:100px; font-family: 'Arial Black'; color:white; cursor:pointer;" th:onclick="'window.location.href = \'/home\''">Together</span>
+  </div>
+  <div style="height:10px"></div>
+  <div align="center">
+    <span>
+        <button class="mainButton stutdy" th:onclick="'window.location.href = \'/study\''">스터디</button>
+    </span> &ensp;&ensp;&ensp;&ensp;&ensp;
+    <span>
+        <button class="mainButton group" th:onclick="'window.location.href = \'/group\''">소모임</button>
+    </span> &ensp;&ensp;&ensp;&ensp;&ensp;
+    <span>
+        <button class="mainButton community" th:onclick="'window.location.href = \'/community\''">커뮤니티</button>
+    </span>
+  </div>
+</div>
+
+
+
+  <div style="height:60px;"></div>
+  <div align="center">
+    <div class="row" align="center" width="80%">
+      <div class="col">
+        <div class="card" style="width: 25rem; height: 16rem;border: 1px solid #000; border-top: none;border-left: none; border-width: 2px; border-color:grey">
+          <div class="card-body">
+            <div align="center" style="font-size: 20px; font-family: 'Arial Black'">아이디 찾기</div>
+            <form name="findForm">
+            <div style="height:70px;display: flex; align-items:center; justify-content: flex-end; ">
+              <span class="card-title" style="font-size:20px; text-align: center">이름</span>&ensp;&ensp;&ensp;
+              &ensp;&ensp;&ensp;&nbsp;
+              <input type="text" name="name" placeholder="이름" style="width:200px; height: 40px;"> &ensp;
+            </div>
+
+            <div style="height:70px;display: flex;align-items:center; justify-content: flex-end; ">
+              <span class="card-title" style="font-size:20px; text-align: center">E-Mail</span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+              <input type="text" name="email" placeholder="E-mail" style="width:200px; height: 40px;">&ensp;
+            </div>
+            </form>
+            <div>
+              <button onclick="findMember()" style="width:80px;border: none;height: 38px;font-size:22px;
+                            border-radius: 10px;background-color: #5853EB;color: white;align-content: center ">확인</button>
+            </div>
+
+          </div>
+        </div>
+        <div style="height:20px"> </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+<div></div>
+</body>
+</html>

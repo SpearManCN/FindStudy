@@ -20,8 +20,16 @@ public class BoardService {
     }
 
     public List<MainBoard> selectAll(Integer sort){
-        return boardRepository.findBySort(sort);
+        return boardRepository.findBySortOrderByNoDesc(sort);
     }
 
     public MainBoard findByNo(Integer no){return boardRepository.findByNo(no);}
+
+    public List<MainBoard> selectAllSearch(Integer sort, String search){
+        return boardRepository.findSearchedBoards(sort, search);
+    }
+
+    public void updateView(int no){
+        boardRepository.updateView(no);
+    }
 }

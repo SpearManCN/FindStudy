@@ -64,9 +64,21 @@
 </head>
 <body>
 <script>
+    $(function(){
+        var no = $("[name=nowPageNo]").val();
+        $("[name=page"+no+"]").css("color", "#5853EB");
+    });
+    function handleClick(data){
+        var no = $("[name=nowPageNo]").val(data);
+        document.pageNoHidden.submit();
+    }
+
     function goDetail(data){
         $("[name=no]").val(data);
         document.detailForm.submit();
+    }
+    function searchFunc(){
+        document.searchForm.submit();
     }
 </script>
 <form action="/boardDetail" method="post" name="detailForm">
@@ -120,7 +132,7 @@
                         <div>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
                             <input type="button" th:onclick="'goDetail('+${board.no}+')'"  style="width:120px;border: none;padding: 10px 20px;
                             border-radius: 10px;background-color: tomato;color: white;" value="More">
-                            <span>💕</span><span th:text="${board.likes}"></span><span>👁️‍🗨️</span><span th:text="${board.views}"></span>
+                            &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span>👁️‍🗨️</span><span th:text="${board.views}"></span>
                         </div>
                     </div>
                 </div>
@@ -129,11 +141,22 @@
 
         </div>
     </div>
-    <div align="center">
-        <input type="text" placeholder="검색어" width="400px" height="40px">
-        <button style="width:70px; height:30px;border:none; border-radius: 15px; background-color: #5853EB; color:white">검색</button>
-        <button th:onclick="'window.location.href = \'/writeBoard\''" style="width:85px; height:30px;border:none; border-radius: 15px; background-color: #5853EB; color:white">글쓰기</button>
+    <div>
+        <div align="center" style="align-content: center;">
+            <span style="cursor:pointer" th:each="iteration : ${#numbers.sequence(1, totPage != null ? totPage : 1)}" th:onclick="'handleClick(' + ${iteration} + ')'"  th:name="'page'+${iteration}" th:text="'['+${iteration}+']'"></span>
+        </div><div style="height: 10px"></div>
     </div>
+    <div align="center">
+        <form name="searchForm" action="/study" method="post">
+            <input name="search" type="text" placeholder="검색어" width="400px" height="40px">
+            <input type="button" value="검색" onclick="searchFunc()" style="width:70px; height:30px;border:none; border-radius: 15px; background-color: #5853EB; color:white">
+            <input type="button" value="글쓰기" th:onclick="'window.location.href = \'/writeBoard\''" style="width:85px; height:30px;border:none; border-radius: 15px; background-color: #5853EB; color:white">
+        </form>
+
+        </div>
+<form action="/study" name="pageNoHidden">
+    <input type="hidden" name="nowPageNo" th:value="${nowPageNo}">
+</form>
 
 
 

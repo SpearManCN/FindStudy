@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class CommentService {
@@ -14,5 +16,9 @@ public class CommentService {
 
     public Comment save(Comment comment){
         return commentRepository.save(comment);
+    }
+
+    public List<Comment> findByBoardNo(Integer boardNo){
+        return commentRepository.findByBoardNo(boardNo);
     }
 }

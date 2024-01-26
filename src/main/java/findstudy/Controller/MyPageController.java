@@ -56,6 +56,7 @@ public class MyPageController {
     @ResponseBody
     public int changePwProc(@Param("pw")String pw, @Param("id")String id, Model model){
         loginService.updatePw(pw,id);
+        System.out.println(pw + id);
         return 1;
     }
 }

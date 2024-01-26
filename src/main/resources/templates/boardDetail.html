@@ -114,7 +114,7 @@
   <div style="height:10px"></div>
   <div align="center">
     <span>
-        <button class="mainButton stutdy" >스터디</button>
+        <button class="mainButton stutdy" th:onclick="'window.location.href = \'/study\''">스터디</button>
     </span> &ensp;&ensp;&ensp;&ensp;&ensp;
     <span>
         <button class="mainButton group" th:onclick="'window.location.href = \'/group\''">소모임</button>
@@ -137,8 +137,8 @@
 
             <div style="height:50px;display: flex; align-items:center; justify-content: flex-end; ">
               <span class="card-title" style="font-size:15px; font-family: 'Arial Black'; text-align: center">작성자</span>&nbsp;
-              <input  th:value="${mainBoard.writer}"  readonly type="text" style="width:200px; height: 40px;"> &ensp;&ensp;&ensp;
-              <span>💕</span><span th:text="${mainBoard.likes}"></span><span>👁️‍🗨️</span><span th:text="${mainBoard.views}"></span>&ensp;&ensp;
+              <input  th:value="${mainBoard.writer}"  readonly type="text" style="width:200px; height: 40px;"> &ensp;&ensp;
+              &ensp;&ensp;&ensp;&ensp;<span>👁️‍🗨️</span><span th:text="${mainBoard.views}"></span>&ensp;&ensp;
             </div>
 
             <div style="height:70px;display: flex; align-items:center; justify-content: flex-end; ">
@@ -201,26 +201,14 @@
               </td>
             </tr>
 
-            <tr style="border-bottom: 1px solid #ddd;">
-              <td width="100px;">
+            <tr th:each="comment:${comments}" style="border-bottom: 1px solid #ddd;">
+              <td width="100px;" th:text="${comment.writer}">
                 작성자
               </td>
-              <td width="400px">
-                내용내용내용내용내용내용내용내용내용
+              <td width="400px" th:text="${comment.content}">
+                내용
               </td>
-              <td width="100px">
-                2024-01-25/19:47
-              </td>
-            </tr>
-
-            <tr style="border-bottom: 1px solid #ddd;">
-              <td width="100px;">
-                작성자
-              </td>
-              <td width="400px">
-                내용내용내용내용내용내용내용내용내용
-              </td>
-              <td width="100px" style="font-size:12px;">
+              <td width="100px" style="font-size:12px;" th:text="${comment.dates}">
                 2024-01-25/19:47
               </td>
             </tr>
