@@ -53,6 +53,7 @@
 
 <div style="height: 250px;" align="right">
     <span style="color:white; font-family: 'Arial Black'; font-size: 15px;" th:if="${auth}==1" th:text="${nick}+' 님 환영합니다    '"> </span>
+    <span th:onclick="'window.location.href = \'/writeMessage\''" style=" cursor:pointer; color:white; vertical-align: -5px;font-family: 'Arial Black'; font-size: 35px;" th:if="${auth}==1" > ✉️</span>
     <button th:if="${auth}==0" class="login" style="cursor:pointer" th:onclick="'window.location.href = \'/loginProc\''">Sign in</button>
     <button th:if="${auth}==1" class="myPage" style="cursor:pointer" th:onclick="'window.location.href = \'/myPage\''">My Page</button>
 </div>

@@ -66,7 +66,15 @@
 </head>
 <body>
 <!-- script -->
-
+<script th:inline="javascript">
+    function goDetail(no){
+        $("[name=no]").val(no);
+        document.detailForm.submit();
+    }
+</script>
+<form name="detailForm" action="/myPageMessageDetail" method="post">
+    <input type="hidden" name="no" >
+</form>
 <div style="width:100%; height:280px; background-color: #5853EB;">
     <div style="height: 8px"></div>
     <div style="height: 50px;" align="right">
@@ -95,47 +103,51 @@
 <div align="center">
     <div class="row" align="center" width="80%">
         <div class="col">
-            <div class="card" style="width: 25rem; height: 23rem;border: 1px solid #000; border-top: none;border-left: none; border-width: 2px; border-color:grey">
+            <div class="card" style="width: 18rem; height: 4rem;border: 1px solid #000; border-top: none;border-left: none; border-width: 2px; border-color:grey">
                 <div class="card-body">
-                    <form name="join" method="post">
-                        <div style="height:70px;display: flex; align-items:center; justify-content: flex-end; ">
-                            <span class="card-title" style="font-size:20px; text-align: center">ID</span> &ensp;&ensp;&ensp;&ensp;&ensp;
-                            <input readonly th:value="${member.getId()}" type="text" name="id" style="width:200px; height: 40px;">&ensp;
+                        <div align="center">
+                            <span class="card-title" style="font-size:20px; text-align: center">Message</span>
                         </div>
-                        <div style="height:70px;display: flex;align-items:center; justify-content: flex-end; ">
-                            <span class="card-title" style="font-size:20px; text-align: center">NAME</span>&ensp;&ensp;&ensp;&ensp;&ensp;
-                            <input readonly th:value="${member.getName()}"  type="text" name="name" style="width:200px; height: 40px;">&ensp;
-                        </div>
-                        <div style="height:70px;display: flex;align-items:center; justify-content: flex-end; ">
-                            <span class="card-title" style="font-size:20px; text-align: center">NICK NAME</span>&ensp;&ensp;&ensp;&ensp;&ensp;
-                            <input readonly th:value="${member.getNick()}" type="text" name="nick" style="width:200px; height: 40px;">&ensp;
-                        </div>
-                        <div style="height:70px;display: flex;align-items:center; justify-content: flex-end; ">
-                            <span class="card-title" style="font-size:20px; text-align: center">PHONE</span>&ensp;&ensp;&ensp;&ensp;&ensp;
-                            <input readonly th:value="${member.getPhone()}" type="text" name="phone" style="width:200px; height: 40px;">&ensp;
-                        </div>
-                        <div style="height:70px;display: flex;align-items:center; justify-content: flex-end; ">
-                            <span class="card-title" style="font-size:20px; text-align: center">E-MAIL</span>&ensp;&ensp;&ensp;&ensp;&ensp;
-                            <input readonly th:value="${member.getEmail()}"  type="text" name="email" style="width:200px; height: 40px;">&ensp;
-                        </div>
-                    </form>
                 </div>
             </div>
             <div style="height:20px"> </div>
         </div>
     </div>
 </div>
-
 <div align="center">
-    <button style="border:none; width:140px; height:35px; font-size:18px; background-color: #cccccc;border-radius: 5px; font-family: 'Arial Black'; cursor:pointer " th:onclick="'window.location.href = \'/myPageChangePw\''">비밀번호 변경</button>&ensp;&ensp;&ensp;&ensp;
-    <button style="border:none; width:100px; height:35px; font-size:18px; background-color: #cccccc;border-radius: 5px; font-family: 'Arial Black'; cursor:pointer " th:onclick="'window.location.href = \'/logoutProc\''">로그아웃</button>
-</div>
-<div style="height:20px;"></div>
-<div align="center">
-    <button style="border:none; width:140px; height:35px; font-size:18px; background-color: #cccccc;border-radius: 5px; font-family: 'Arial Black'; cursor:pointer " th:onclick="'window.location.href = \'/myPageMessage\''">My Message</button>
+<table style="border-radius: 20px; background-color: #E6E6E6; width:600px; border-width: 2px; border-color:grey; text-align: center">
+    <tr style="border-bottom: 1px solid #ddd;">
+        <td width="100px;">
+            From
+        </td>
+        <td width="100px">
+            To
+        </td>
+        <td width="300px">
+            제목
+        </td>
+        <td width="100px">
+            날짜
+        </td>
+    </tr>
+
+    <tr th:each="message:${messageList}" th:onclick="'goDetail('+${message.no}+')'" style="border-bottom: 1px solid #ddd;cursor:pointer">
+        <td width="100px;" th:text="${message.fromNick}">
+            보낸이
+        </td>
+        <td width="100px;" th:text="${message.toNick}">
+            보낸이
+        </td>
+        <td width="300px" th:text="${message.title}">
+            제목
+        </td>
+        <td width="100px" style="font-size:12px;" th:text="${message.dates}">
+            2024-01-25/19:47
+        </td>
+    </tr>
+</table>
 </div>
 
 
-<div></div>
 </body>
 </html>
