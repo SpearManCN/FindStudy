@@ -26,6 +26,7 @@
       border: none;
     }
     .stutdy{
+
       background-color: tomato;
     }
     .group{
@@ -54,22 +55,49 @@
       border: none;
       border-radius: 10px;
     }
-    input[type="text"],
-    textarea {
-      border:none;
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
       outline: none;
-      background-color: #EBF7FF;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
   </style>
-
 </head>
 <body>
-<script>
 
+<script th:inline="javascript">
+  function gogogo(){
+    if (!loginVal()){return}
+
+    $.ajax({
+      url:"/loginJoinProc"
+      ,data:$("[name=join]").serialize()
+      ,type:"post"
+      ,success:function(data){
+        if(data==3){alert("NICK NAME이 중복됩니다.");}
+        else if(data==2){alert("ID가 중복됩니다.");}
+        else if(data==1){alert("환영합니다! 다시 카카오 로그인을 해주세요");
+          window.location.href = '/home';
+        }
+      }
+      ,error:function(e){
+        alert(e.responseText);
+      }
+    });
+  }
+
+  function loginVal(){
+    var regex = /^\d{8}$/;
+    if( $("[name=name]").val()=="" ||
+            $("[name=nick]").val()=="" || $("[name=phone]").val()==""){
+      alert("모든 칸을 채워주세요"); return false;
+    }else if( !regex.test( $("[name=phone]").val())){
+      alert("PHONE은 숫자로만 구성된 8자리 입니다");
+      return false;
+    }else{return true;}
+  }
 </script>
-
-
-
 
 <div style="width:100%; height:280px; background-color: #5853EB;">
   <div style="height: 8px"></div>
@@ -99,47 +127,42 @@
 <div align="center">
   <div class="row" align="center" width="80%">
     <div class="col">
-      <div class="card" style="width: 25rem; height: 43rem;border: 1px solid #000; border-top: none;border-left: none; border-width: 2px; border-color:grey">
+      <div class="card" style="width: 25rem; height: 23rem;border: 1px solid #000; border-top: none;border-left: none; border-width: 2px; border-color:grey">
         <div class="card-body">
 
-            <input type="hidden" name="sort" value="0">
-
-            <div style="height:50px;display: flex; align-items:center; ">
-              <span class="card-title" style="font-size:15px; font-family: 'Arial Black'; text-align: center">From</span>&nbsp;
-              <input th:value="${message.fromNick}"  readonly type="text" style="width:200px; height: 40px;">
-            </div>
-
-            <div style="height:50px;display: flex; align-items:center;">
-              &ensp;&ensp;&nbsp;
-              <span class="card-title" style="font-size:15px; font-family: 'Arial Black'; text-align: center">To</span>&nbsp;
-              <input  th:value="${message.toNick}" readonly type="text" style="width:200px; height: 40px;">
-            </div>
-
-            <div style="height:70px;display: flex; align-items:center; justify-content: flex-end; ">
-              <span class="card-title" style="font-size:15px; font-family: 'Arial Black'; text-align: center">제목</span>&nbsp;
-              <input th:value="${message.title}" readonly type="text" name="title" style="width:350px; height: 40px;"> &ensp;
-            </div>
-
-            <div style="height:400px;display: flex;align-items:center; justify-content: flex-end; ">
-              <span class="card-title" style="font-size:15px; text-align: center">내용</span> &nbsp;
-              <textarea th:text="${message.content}" readonly style="width:350px; height: 400px;"></textarea>&ensp;
-            </div>
-            <div style="height: 10px"></div>
-            <div style="height:20px;display: flex; align-items:center; justify-content: flex-end; ">
-              <span th:text="${message.dates}" style="font-size: 12px"></span>
-            </div>
-            <div style="height: 10px"></div>
+          <form name="join" method="post">
             <div align="center">
-              <button style="border:none; width:80px; height:35px; font-size:18px; background-color: #cccccc;border-radius: 5px; font-family: 'Arial Black'; cursor:pointer " th:onclick="'window.location.href = \'/myPageMessage\''">목록</button>
-              &ensp;
-              <button onclick="document.replyForm.submit()" style="border:none; width:100px; height:35px; font-size:18px; background-color: #cccccc;border-radius: 5px; font-family: 'Arial Black'; cursor:pointer " >답장하기</button>
+              <span>간편 회원가입</span>
             </div>
+
+            <div style="height:70px;display: flex;align-items:center; justify-content: flex-end; ">
+              <span class="card-title" style="font-size:20px; text-align: center">NAME</span>&ensp;&ensp;&ensp;&ensp;&ensp;
+              <input type="text" name="name" placeholder="NAME" style="width:200px; height: 40px;">&ensp;
+            </div>
+            <div style="height:70px;display: flex;align-items:center; justify-content: flex-end; ">
+              <span class="card-title" style="font-size:20px; text-align: center">NICK NAME</span>&ensp;&ensp;&ensp;&ensp;&ensp;
+              <input type="text" name="nick" placeholder="NICK NAME" style="width:200px; height: 40px;">&ensp;
+            </div>
+            <div style="height:70px;display: flex;align-items:center; justify-content: flex-end; ">
+              <span class="card-title" style="font-size:20px; text-align: center">PHONE</span>&ensp;&ensp;&ensp;&ensp;&ensp;
+              <input type="text" name="phone" placeholder="-없이 숫자 8개" style="width:200px; height: 40px;">&ensp;
+            </div>
+
+            <input type="hidden" name="id">
+            <input type="hidden" name="pw">
+            <input type="hidden" name="email" th:value="${kakaoEmail}">
+          </form>
+
+          <div>
+            <button style="width:110px;border: none;padding: 10px 20px;height: 38px;font-size:19px;display: flex; align-items:center; justify-content: center;
+                            border-radius: 10px;background-color: #5853EB;color: white;align-content: center " th:onclick="gogogo()">Sign up</button>
+          </div>
         </div>
       </div>
       <div style="height:20px"> </div>
     </div>
   </div>
 </div>
-<form name="replyForm" action="/writeMessage" method="post"><input type="hidden" name="replyTo" th:value="${message.toNick}"></form>
+<div></div>
 </body>
 </html>

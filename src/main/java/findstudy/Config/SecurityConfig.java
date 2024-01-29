@@ -22,7 +22,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests() //권한 설정
-                    .antMatchers("/static/**","/login_join","/loginForm","/home","/loginJoinProc","/login_find","/login_findProc","/login_changePw","/changePwProc").permitAll() //인증이 필요없이 들어올수 있는곳 설정
+                    .antMatchers("/static/**","/login_join","/loginForm","/home","/loginJoinProc"
+                            ,"/login_find","/login_findProc","/login_changePw","/changePwProc", "/images/**"
+                            , "/goKakao","/https://kauth.kakao.com/**","/oauth2/**",  "/home2"
+                    ).permitAll() //인증이 필요없이 들어올수 있는곳 설정
                     .anyRequest().authenticated() //위 제외하고는 모든곳에는 인증이 필요하다고 설정
                     .and()
                 .formLogin() // 폼기반 로그인 활성화

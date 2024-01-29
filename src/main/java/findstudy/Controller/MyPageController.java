@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
@@ -109,7 +110,7 @@ public class MyPageController {
     }
 
     @RequestMapping("/writeMessage")
-    public String writeMessage(Model model){
+    public String writeMessage(Model model, @RequestParam(value="replyTo",required = false, defaultValue = "")String replyTo){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails principal = (UserDetails) authentication.getPrincipal();
         String id2 =  principal.getUsername();
@@ -122,6 +123,9 @@ public class MyPageController {
         String id =  principal.getUsername();
         model.addAttribute("id", id);
         model.addAttribute("auth", auth);
+
+        if(replyTo!=""){model.addAttribute("replyTo",replyTo);}
+
 
         return "writeMessage";
     }

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.tmpForm.submit();
+    });
+</script>
+</body>
+접속중 ...
+<form name="tmpForm" action="/login" method="post">
+  <input type="hidden" name="username" th:value="${id}">
+  <input type="hidden" name="password" th:value="${pw}">
+</form>
+</html>

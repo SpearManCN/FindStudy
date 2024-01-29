@@ -19,4 +19,7 @@ public interface LoginRepository extends JpaRepository<Member, Long> {
     @Modifying
     @Query("UPDATE Member m set m.pw = :pw where m.id = :id")
     public void updatePwById(@Param("pw") String pw, @Param("id") String id);
+
+    public Member findByEmail(String email);
+
 }

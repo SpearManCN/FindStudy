@@ -29,4 +29,8 @@ public class LoginService {
     public Member findByNameAndEmail(String name, String email){
         return loginRepository.findByNameAndEmail(name,email);
     }
+
+    public Member findByEmail(String email){
+        return loginRepository.findByEmail(email);
+    }
 }

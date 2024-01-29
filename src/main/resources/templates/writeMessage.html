@@ -124,7 +124,8 @@
             <form name="writeForm">
             <div style="height:50px;display: flex; align-items:center;">
               <span class="card-title" style="font-size:15px; font-family: 'Arial Black'; text-align: center">To</span>&nbsp;
-              <input name="toNick" placeholder="수신자 닉네임" type="text" style="width:200px; height: 40px;">
+              <input th:if="${replyTo == null}" name="toNick" placeholder="수신자 닉네임" type="text" style="width:200px; height: 40px;">
+                <input th:if="${replyTo != null}" th:value="${replyTo}" name="toNick" placeholder="수신자 닉네임" type="text" style="width:200px; height: 40px;">
             </div>
 
             <div style="height:70px;display: flex; align-items:center; justify-content: flex-end; ">
