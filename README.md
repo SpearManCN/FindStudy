@@ -1,5 +1,4 @@
-![image](https://github.com/SpearManCN/FindStudy/assets/119284822/23a2abf5-1b7b-40ab-8ce2-0e535fbc6d74)# FindStudy (2024 . 01. 19 ~ 2024 . 01. 30)
- 
+
 ### 사용할 기술 spring / thymeleaf / spring data jpa(+querydsl) / spring security / db-mysql
 ### 주제 = 스터디 / 소모임 / 커뮤니티 를 구하는 웹사이트를 제작 
 ## 사이트 주소 = http://togetherpj.kro.kr/home
