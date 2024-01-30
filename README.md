@@ -26,5 +26,5 @@
 
 ## 마이 페이지와 내 메세지함, 그리고 메세지 보내는 화면
 <img src="pictures/mypage.png">
-<img src="pictures/mypagemessage.png">
+<img src="pictures/mymessage.png">
 <img src="pictures/message.png">
