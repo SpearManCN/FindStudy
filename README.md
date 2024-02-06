@@ -1,7 +1,7 @@
 
 # Together (스터디 구인 웹 프로젝트)
 
-# 제작 기간(2024 . 01 . 19 ~ 2024 . 01 . 30)  / 개인 프로젝트 (네 번째 프로젝트)
+# 제작 기간(2024 . 01 . 19 ~ 2024 . 01 . 30)  / 개인 프로젝트 (네 번째 프로젝트) 
 
 ### 개발 환경 spring / thymeleaf / spring data jpa(+querydsl) / spring security / db-mysql
   
